@@ -13,6 +13,8 @@ defmodule CovidCheckin.Events.Attendee do
     field :telefon, :string
     field :healthy, :boolean
     field :currently_at_event, :boolean
+    field :registered_at, :utc_datetime
+    field :left_event_at, :utc_datetime
 
     belongs_to(:event, Event)
 
@@ -20,9 +22,20 @@ defmodule CovidCheckin.Events.Attendee do
   end
 
   @doc false
-  def changeset(event, attrs) do
-    event
-    |> cast(attrs, [:name, :max_attendees])
-    |> validate_required([:name, :max_attendees])
+  def register_changeset(attendee, attrs) do
+    attendee
+    |> cast(attrs, [:first_name, :last_name, :address, :telefon, :healthy])
+    |> validate_required([:first_name, :last_name, :address, :telefon, :healthy])
+    |> set_currently_at_event_to(true)
+    |> set_registered_at()
+  end
+
+  defp set_currently_at_event_to(changeset, boolean) do
+    put_change(changeset, :currently_at_event, boolean)
+  end
+
+  defp set_registered_at(changeset) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+    put_change(changeset, :registered_at, now)
   end
 end

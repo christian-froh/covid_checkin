@@ -23,6 +23,9 @@ defmodule CovidCheckinWeb.Router do
 
     live "/events/:id", EventLive.Show, :show
     live "/events/:id/show/edit", EventLive.Show, :edit
+    live "/events/:id/show_qr", EventLive.ShowQr, :show
+
+    live "/attendees/:id", AttendeeLive.Show, :show
   end
 
   # Other scopes may use custom stacks.

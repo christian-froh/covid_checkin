@@ -21,6 +21,16 @@
     <%= @event.max_attendees %>
   </li>
 
+  <li>
+    <strong>Registered attendees:</strong>
+    <%= length(Enum.filter(@event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %>
+  </li>
+
+  <li>
+    <strong>Currently at event:</strong>
+    <%= length(Enum.filter(@event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %>
+  </li>
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.event_show_path(@socket, :edit, @event), class: "button" %></span>

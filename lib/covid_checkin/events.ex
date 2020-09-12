@@ -36,7 +36,10 @@ defmodule CovidCheckin.Events do
       ** (Ecto.NoResultsError)
 
   """
-  def get_event!(id), do: Repo.get!(Event, id)
+  def get_event!(id) do
+    event = Repo.get!(Event, id)
+    Repo.preload(event, :attendees)
+  end
 
   @doc """
   Creates a event.
@@ -51,14 +54,17 @@ defmodule CovidCheckin.Events do
 
   """
   def create_event(attrs \\ %{}) do
-    {:ok, event} =
-      %Event{}
-      |> Event.changeset(attrs)
-      |> Repo.insert()
+    %Event{}
+    |> Event.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, event} ->
+        Attendees.create_attendees(event)
+        {:ok, event}
 
-    Attendees.create_attendees(event)
-
-    {:ok, event}
+      error ->
+        error
+    end
   end
 
   @doc """

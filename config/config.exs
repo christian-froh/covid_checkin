@@ -16,7 +16,15 @@ config :covid_checkin, CovidCheckinWeb.Endpoint,
   secret_key_base: "rZoiZlldrrwMEeXiUACbiylaWlOgZNaAgrXexTqJhfHypvLvYQbIorEJKhuih5Kz",
   render_errors: [view: CovidCheckinWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: CovidCheckin.PubSub,
-  live_view: [signing_salt: "6EBKAOi+"]
+  live_view: [signing_salt: "6EBKAOi+"],
+  http: [
+    protocol_options: [
+      max_header_name_length: 10_000_000,
+      max_header_value_length: 10_000_000,
+      max_headers: 10_000_000,
+      max_request_line_length: 10_000_000
+    ]
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

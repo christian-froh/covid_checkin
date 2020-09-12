@@ -1,0 +1,13 @@
+<h1>Show QR codes</h1>
+
+<span><%= live_redirect "Back", to: Routes.event_index_path(@socket, :index) %></span>
+
+<ul>
+  <%= for attendee <- @event.attendees do %>
+    <% {:ok, qr_code} = QRCode.create("#{attendee.id}") %>
+    <li>
+      <img src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
+    </li>
+  <% end %>
+
+</ul>

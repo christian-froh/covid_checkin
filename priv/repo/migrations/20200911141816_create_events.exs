@@ -16,6 +16,8 @@ defmodule CovidCheckin.Repo.Migrations.CreateEvents do
       add :telefon, :string
       add :healthy, :boolean
       add :currently_at_event, :boolean
+      add :registered_at, :utc_datetime
+      add :left_event_at, :utc_datetime
 
       add :event_id, references(:events)
 

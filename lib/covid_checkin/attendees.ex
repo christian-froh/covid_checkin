@@ -18,4 +18,18 @@ defmodule CovidCheckin.Attendees do
     Repo.insert_all(Attendee, attendees_params)
     {:ok, true}
   end
+
+  def get_attendee!(id) do
+    Repo.get!(Attendee, id)
+  end
+
+  def register_attendee(%Attendee{} = attendee, attrs) do
+    attendee
+    |> Attendee.register_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_attendee(%Attendee{} = attendee, attrs \\ %{}) do
+    Attendee.register_changeset(attendee, attrs)
+  end
 end
