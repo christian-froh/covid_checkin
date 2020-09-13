@@ -20,7 +20,8 @@ defmodule CovidCheckin.Attendees do
   end
 
   def get_attendee!(id) do
-    Repo.get!(Attendee, id)
+    attendee = Repo.get!(Attendee, id)
+    Repo.preload(attendee, :event)
   end
 
   def register_attendee(%Attendee{} = attendee, attrs) do
@@ -29,7 +30,9 @@ defmodule CovidCheckin.Attendees do
     |> Repo.update()
   end
 
-  def change_attendee(%Attendee{} = attendee, attrs \\ %{}) do
-    Attendee.register_changeset(attendee, attrs)
+  def update_attendee(%Attendee{} = attendee, attrs \\ %{}) do
+    attendee
+    |> Attendee.update_changeset(attrs)
+    |> Repo.update()
   end
 end

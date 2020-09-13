@@ -1,5 +1,14 @@
 <h1>Show Attendees</h1>
 
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, CovidCheckinWeb.EventLive.AttendeeFormComponent,
+    id: @attendee.id,
+    title: @page_title,
+    action: @live_action,
+    attendee: @attendee,
+    return_to: Routes.event_show_attendees_path(@socket, :show, @attendee.event) %>
+<% end %>
+
 <span><%= live_redirect "Back", to: Routes.event_index_path(@socket, :index) %></span>
 
 <table>
@@ -19,20 +28,22 @@
   </thead>
   <tbody id="attendees">
     <%= for attendee <- @event.attendees do %>
-      <tr id="attendee-<%= attendee.id %>">
-        <td><%= attendee.first_name %></td>
-        <td><%= attendee.last_name %></td>
-        <td><%= attendee.address %></td>
-        <td><%= attendee.telefon %></td>
-        <td><%= attendee.healthy %></td>
-        <td><%= attendee.currently_at_event %></td>
-        <td><%= attendee.registered_at %></td>
-        <td><%= attendee.left_event_at %></td>
+      <%= if attendee.registered_at do %>
+        <tr id="attendee-<%= attendee.id %>">
+          <td><%= attendee.first_name %></td>
+          <td><%= attendee.last_name %></td>
+          <td><%= attendee.address %></td>
+          <td><%= attendee.telefon %></td>
+          <td><%= attendee.healthy %></td>
+          <td><%= attendee.currently_at_event %></td>
+          <td><%= attendee.registered_at %></td>
+          <td><%= attendee.left_event_at %></td>
 
-        <td>
-          <span>Edit</span>
-        </td>
-      </tr>
+          <td>
+            <span><%= live_patch "Edit", to: Routes.event_show_attendees_path(@socket, :edit, @event, attendee) %></span>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

@@ -32,6 +32,19 @@ defmodule CovidCheckin.Events.Attendee do
     |> set_registered_at()
   end
 
+  def update_changeset(attendee, attrs) do
+    attendee
+    |> cast(attrs, [:first_name, :last_name, :address, :telefon, :healthy, :currently_at_event])
+    |> validate_required([
+      :first_name,
+      :last_name,
+      :address,
+      :telefon,
+      :healthy,
+      :currently_at_event
+    ])
+  end
+
   def leave_changeset(attendee) do
     attendee
     |> cast(%{}, [])

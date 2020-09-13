@@ -13,7 +13,7 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     attendee = Attendees.get_attendee!(id)
-    changeset = Attendees.change_attendee(attendee)
+    changeset = Attendee.register_changeset(attendee, %{})
 
     {:noreply,
      socket
