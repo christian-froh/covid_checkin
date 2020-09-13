@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :covid_checkin,
-  ecto_repos: [CovidCheckin.Repo]
+  ecto_repos: [CovidCheckin.Repo],
+  url: "http://localhost:4000"
 
 # Configures the endpoint
 config :covid_checkin, CovidCheckinWeb.Endpoint,

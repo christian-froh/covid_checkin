@@ -1,10 +1,12 @@
 defmodule CovidCheckin.Events.Event do
   use Ecto.Schema
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
+  @timestamps_opts [type: :utc_datetime]
+
   import Ecto.Changeset
 
   alias CovidCheckin.Events.Attendee
-
-  @timestamps_opts [type: :utc_datetime]
 
   schema "events" do
     field :max_attendees, :integer

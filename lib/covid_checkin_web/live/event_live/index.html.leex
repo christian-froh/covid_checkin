@@ -14,6 +14,8 @@
     <tr>
       <th>Name</th>
       <th>Max attendees</th>
+      <th>Registered attendees</th>
+      <th>Currently at event</th>
 
       <th></th>
     </tr>
@@ -23,11 +25,14 @@
       <tr id="event-<%= event.id %>">
         <td><%= event.name %></td>
         <td><%= event.max_attendees %></td>
+        <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %></td>
+        <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.event_show_path(@socket, :show, event) %></span>
           <span><%= live_patch "Edit", to: Routes.event_index_path(@socket, :edit, event) %></span>
           <span><%= live_redirect "Show all QR codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
+          <span><%= live_redirect "Show all attendees", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>

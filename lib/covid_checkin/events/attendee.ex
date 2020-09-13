@@ -1,10 +1,12 @@
 defmodule CovidCheckin.Events.Attendee do
   use Ecto.Schema
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
+  @timestamps_opts [type: :utc_datetime]
+
   import Ecto.Changeset
 
   alias CovidCheckin.Events.Event
-
-  @timestamps_opts [type: :utc_datetime]
 
   schema "attendees" do
     field :first_name, :string
@@ -30,6 +32,13 @@ defmodule CovidCheckin.Events.Attendee do
     |> set_registered_at()
   end
 
+  def leave_changeset(attendee) do
+    attendee
+    |> cast(%{}, [])
+    |> set_currently_at_event_to(false)
+    |> set_left_event_at()
+  end
+
   defp set_currently_at_event_to(changeset, boolean) do
     put_change(changeset, :currently_at_event, boolean)
   end
@@ -37,5 +46,10 @@ defmodule CovidCheckin.Events.Attendee do
   defp set_registered_at(changeset) do
     now = DateTime.utc_now() |> DateTime.truncate(:second)
     put_change(changeset, :registered_at, now)
+  end
+
+  defp set_left_event_at(changeset) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+    put_change(changeset, :left_event_at, now)
   end
 end

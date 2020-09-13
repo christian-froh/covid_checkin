@@ -1,0 +1,38 @@
+<h1>Show Attendees</h1>
+
+<span><%= live_redirect "Back", to: Routes.event_index_path(@socket, :index) %></span>
+
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Address</th>
+      <th>Telefon</th>
+      <th>Healthy</th>
+      <th>Currently at event</th>
+      <th>registered at</th>
+      <th>left event at</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="attendees">
+    <%= for attendee <- @event.attendees do %>
+      <tr id="attendee-<%= attendee.id %>">
+        <td><%= attendee.first_name %></td>
+        <td><%= attendee.last_name %></td>
+        <td><%= attendee.address %></td>
+        <td><%= attendee.telefon %></td>
+        <td><%= attendee.healthy %></td>
+        <td><%= attendee.currently_at_event %></td>
+        <td><%= attendee.registered_at %></td>
+        <td><%= attendee.left_event_at %></td>
+
+        <td>
+          <span>Edit</span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

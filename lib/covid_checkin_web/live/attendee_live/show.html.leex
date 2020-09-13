@@ -29,5 +29,11 @@
     <%= submit "Save", phx_disable_with: "Saving..." %>
   </form>
 <% else %>
-  Show button
+  <%= if @attendee.currently_at_event == true do %>
+    <button phx-click="leave">
+      Leave event
+    </button>
+  <% else %>
+    We hope you had fun at the event.
+  <% end %>
 <% end %>

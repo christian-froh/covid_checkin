@@ -4,7 +4,7 @@
 
 <ul>
   <%= for attendee <- @event.attendees do %>
-    <% {:ok, qr_code} = QRCode.create("#{attendee.id}") %>
+    <% {:ok, qr_code} = QRCode.create("#{Application.get_env(:covid_checkin, :url)}/attendees/#{attendee.id}") %>
     <li>
       <img src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
     </li>

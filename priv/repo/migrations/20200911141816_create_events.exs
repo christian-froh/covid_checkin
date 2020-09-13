@@ -2,14 +2,16 @@ defmodule CovidCheckin.Repo.Migrations.CreateEvents do
   use Ecto.Migration
 
   def change do
-    create table(:events) do
+    create table(:events, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
       add :name, :string
       add :max_attendees, :integer
 
       timestamps()
     end
 
-    create table(:attendees) do
+    create table(:attendees, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
       add :first_name, :string
       add :last_name, :string
       add :address, :text
@@ -19,7 +21,7 @@ defmodule CovidCheckin.Repo.Migrations.CreateEvents do
       add :registered_at, :utc_datetime
       add :left_event_at, :utc_datetime
 
-      add :event_id, references(:events)
+      add :event_id, references(:events, type: :uuid)
 
       timestamps()
     end

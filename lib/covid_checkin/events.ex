@@ -19,7 +19,8 @@ defmodule CovidCheckin.Events do
 
   """
   def list_events do
-    Repo.all(Event)
+    events = Repo.all(Event)
+    Repo.preload(events, :attendees)
   end
 
   @doc """

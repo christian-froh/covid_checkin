@@ -3,6 +3,7 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
 
   alias CovidCheckin.Attendees
   alias CovidCheckin.Events.Attendee
+  alias CovidCheckin.Repo
 
   @impl true
   def mount(_params, _session, socket) do
@@ -42,5 +43,15 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
+  end
+
+  def handle_event("leave", _, socket) do
+    Attendee.leave_changeset(socket.assigns.attendee)
+    |> Repo.update()
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Thanks for attending to the event. Hope you had much fun")
+     |> push_redirect(to: Routes.attendee_show_path(socket, :show, socket.assigns.attendee))}
   end
 end
