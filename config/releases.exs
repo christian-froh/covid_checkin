@@ -6,7 +6,7 @@ config :covid_checkin,
 config :covid_checkin, CovidCheckin.Repo,
   # ssl: true,
   url: System.fetch_env!("DATABASE_URL"),
-  pool_size: String.to_integer(System.fetch_env!("POOLL_SIZE"))
+  pool_size: String.to_integer(System.fetch_env!("POOL_SIZE"))
 
 config :covid_checkin, CovidCheckinWeb.Endpoint,
   http: [
