@@ -1,20 +1,22 @@
-<h1>Show Attendee</h1>
+<h1>Veranstaltung <%= @attendee.event.name %> </h1>
 
 <%= unless @attendee.registered_at do %>
+  <h3>Aufgrund von Corona müssen Sie sich bei uns registrieren.</h3>
+
   <%= f = form_for @changeset, "#",
     id: "attendee-form",
     phx_change: "validate",
     phx_submit: "save" %>
 
-    <%= label f, :first_name %>
+    <%= label f, :first_name, "Vorname" %>
     <%= text_input f, :first_name %>
     <%= error_tag f, :first_name %>
 
-    <%= label f, :last_name %>
+    <%= label f, :last_name, "Nachname" %>
     <%= text_input f, :last_name %>
     <%= error_tag f, :last_name %>
 
-    <%= label f, :address %>
+    <%= label f, :address, "Adresse" %>
     <%= textarea f, :address %>
     <%= error_tag f, :address %>
 
@@ -22,18 +24,23 @@
     <%= text_input f, :telefon %>
     <%= error_tag f, :telefon %>
 
-    <%= label f, :healthy %>
+    <%= label f, :healthy, "Gesund?" %>
     <%= checkbox f, :healthy %>
     <%= error_tag f, :healthy %>
 
-    <%= submit "Save", phx_disable_with: "Saving..." %>
+    <div>
+      <%= submit "Anmelden", phx_disable_with: "Speichere...", class: "button margin_top_20" %>
+    </div>
+
   </form>
 <% else %>
   <%= if @attendee.currently_at_event == true do %>
-    <button phx-click="leave">
-      Leave event
+    <h3>Fall Sie die Veranstaltung verlassen, klicken Sie bitte auf den Button.</h3>
+
+    <button class="button" phx-click="leave">
+      Veranstaltung verlassen
     </button>
   <% else %>
-    We hope you had fun at the event.
+    Wir hoffen Ihnen hat die Veranstaltung gefallen!
   <% end %>
 <% end %>

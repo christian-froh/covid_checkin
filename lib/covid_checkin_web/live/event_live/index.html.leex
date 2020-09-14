@@ -1,4 +1,4 @@
-<h1>Listing Events</h1>
+<h1>Deine Eventübersicht</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, CovidCheckinWeb.EventLive.FormComponent,
@@ -13,9 +13,9 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Max attendees</th>
-      <th>Registered attendees</th>
-      <th>Currently at event</th>
+      <th>Max Teilnehmer</th>
+      <th>Registrierte Teilnehmer</th>
+      <th>Eingecheckte Teilnehmer</th>
 
       <th></th>
       <th></th>
@@ -32,17 +32,19 @@
         <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></td>
 
         <td>
-          <span><%= live_redirect "All QR codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
+          <span><%= live_redirect "Alle QR Codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
         </td>
         <td>
-          <span><%= live_redirect "Show all attendees", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
+          <span><%= live_redirect "Alle Teilnehmer", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
         </td>
         <td>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Are you sure?"] %></span>
+          <button class="button delete"><%= link "Lösche Event", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Vorsicht!!! Möchtest du das Event wirklich löschen?"] %></button>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Event", to: Routes.event_index_path(@socket, :new) %></span>
+<div>
+  <button class="button"><%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new) %></button>
+</div>

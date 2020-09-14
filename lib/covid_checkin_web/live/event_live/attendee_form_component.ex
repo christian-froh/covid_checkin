@@ -29,7 +29,7 @@ defmodule CovidCheckinWeb.EventLive.AttendeeFormComponent do
       {:ok, _attendee} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Attendee updated successfully")
+         |> put_flash(:info, "Teilnehmer erfolgreich gespeichert")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

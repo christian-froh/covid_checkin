@@ -37,7 +37,7 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
       {:ok, _attendee} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Attendee updated successfully")
+         |> put_flash(:info, "Erfolgeich angemeldet! Viel Spaß")
          |> push_redirect(to: Routes.attendee_show_path(socket, :show, socket.assigns.attendee))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -51,7 +51,10 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
 
     {:noreply,
      socket
-     |> put_flash(:info, "Thanks for attending to the event. Hope you had much fun")
+     |> put_flash(
+       :info,
+       "Vielen Dank, dass Sie unsere veranstaltung besucht haben. Wir hoffen Sie hatten viel Spaß!"
+     )
      |> push_redirect(to: Routes.attendee_show_path(socket, :show, socket.assigns.attendee))}
   end
 end

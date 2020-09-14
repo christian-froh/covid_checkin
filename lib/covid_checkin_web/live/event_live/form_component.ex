@@ -32,7 +32,7 @@ defmodule CovidCheckinWeb.EventLive.FormComponent do
       {:ok, _event} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Event updated successfully")
+         |> put_flash(:info, "Event erfolgreich bearbeitet")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +45,7 @@ defmodule CovidCheckinWeb.EventLive.FormComponent do
       {:ok, _event} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Event created successfully")
+         |> put_flash(:info, "Event erfolgreich erstellt")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

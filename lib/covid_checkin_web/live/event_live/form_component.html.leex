@@ -10,9 +10,9 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
-  <%= label f, :max_attendees %>
+  <%= label f, :max_attendees, "Max Teilnehmer" %>
   <%= number_input f, :max_attendees %>
   <%= error_tag f, :max_attendees %>
 
-  <%= submit "Save", phx_disable_with: "Saving..." %>
+  <%= submit "Erstelle Event", phx_disable_with: "Speichere...", class: "button" %>
 </form>

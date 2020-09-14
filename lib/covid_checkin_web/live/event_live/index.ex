@@ -16,19 +16,19 @@ defmodule CovidCheckinWeb.EventLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Event")
+    |> assign(:page_title, "Event bearbeiten")
     |> assign(:event, Events.get_event!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Event")
+    |> assign(:page_title, "Event erstellen")
     |> assign(:event, %Event{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Events")
+    |> assign(:page_title, "Deine Eventübersicht")
     |> assign(:event, nil)
   end
 

@@ -1,4 +1,4 @@
-<h1>Show Attendees</h1>
+<h1>Alle Teilnehmer</h1>
 
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, CovidCheckinWeb.EventLive.AttendeeFormComponent,
@@ -9,19 +9,21 @@
     return_to: Routes.event_show_attendees_path(@socket, :show, @attendee.event) %>
 <% end %>
 
-<span><%= live_redirect "Back", to: Routes.event_index_path(@socket, :index) %></span>
+<div class="margin_top_20 margin_bottom_20">
+  <button class="button"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></button>
+</div>
 
 <table>
   <thead>
     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Address</th>
+      <th>Vorname</th>
+      <th>Nachname</th>
+      <th>Adresse</th>
       <th>Telefon</th>
-      <th>Healthy</th>
-      <th>Currently at event</th>
-      <th>registered at</th>
-      <th>left event at</th>
+      <th>Gesund?</th>
+      <th>Eingecheckt im Event</th>
+      <th>Registriert am</th>
+      <th>Event verlassen am</th>
 
       <th></th>
     </tr>
@@ -40,7 +42,7 @@
           <td><%= attendee.left_event_at %></td>
 
           <td>
-            <span><%= live_patch "Edit", to: Routes.event_show_attendees_path(@socket, :edit, @event, attendee) %></span>
+            <button class="button"><%= live_patch "Bearbeiten", to: Routes.event_show_attendees_path(@socket, :edit, @event, attendee) %></button>
           </td>
         </tr>
       <% end %>
