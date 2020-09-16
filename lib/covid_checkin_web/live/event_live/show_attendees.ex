@@ -50,4 +50,10 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
 
     {:noreply, socket}
   end
+
+  defp highlight_last_name(lastname, ""), do: lastname
+
+  defp highlight_last_name(lastname, search) do
+    String.replace(lastname, search, "<span class=\"text_highlight\">#{search}</span>")
+  end
 end

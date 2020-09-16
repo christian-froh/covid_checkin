@@ -10,7 +10,7 @@
 <% end %>
 
 <div class="margin_top_20 margin_bottom_20">
-  <button class="button"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></button>
+  <span class="link"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></span>
 </div>
 
 <form phx-change="attendee-search">
@@ -39,7 +39,7 @@
       <%= if attendee.registered_at do %>
         <tr id="attendee-<%= attendee.id %>">
           <td><%= attendee.first_name %></td>
-          <td><%= attendee.last_name %></td>
+          <td><%= raw(highlight_last_name(attendee.last_name, @search)) %></td>
           <td><%= attendee.address %></td>
           <td><%= attendee.telefon %></td>
           <td><%= attendee.healthy %></td>
