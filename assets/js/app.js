@@ -23,9 +23,9 @@ Hooks.StoreSettings = {
   mounted() {
     // Send a "restore_access" event to the LiveView, including the stored access.
     // If nothing is stored yet, we'll send a `null` value.
-    this.pushEvent("restore_access", {
-      access: localStorage.getItem("access"),
-    });
+    // this.pushEvent("restore_access", {
+    //   access: localStorage.getItem("access"),
+    // });
 
     this.handleEvent("store_access", ({ access }) =>
       localStorage.setItem("access", access)
@@ -37,7 +37,10 @@ let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
-  params: { _csrf_token: csrfToken },
+  params: {
+    _csrf_token: csrfToken,
+    access: localStorage.getItem("access"),
+  },
   hooks: Hooks,
 });
 

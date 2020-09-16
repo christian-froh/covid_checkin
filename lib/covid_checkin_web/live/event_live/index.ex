@@ -6,9 +6,23 @@ defmodule CovidCheckinWeb.EventLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    loading =
+      if socket.connected? do
+        false
+      else
+        true
+      end
+
+    access =
+      case get_connect_params(socket)["access"] do
+        "true" -> true
+        _ -> false
+      end
+
     socket =
       assign(socket,
-        access: false,
+        loading: loading,
+        access: access,
         events: list_events()
       )
 
@@ -39,15 +53,6 @@ defmodule CovidCheckinWeb.EventLive.Index do
   end
 
   @impl true
-  def handle_event("restore_access", %{"access" => "true"}, socket) do
-    {:noreply, assign(socket, :access, true)}
-  end
-
-  def handle_event("restore_access", _params, socket) do
-    {:noreply, assign(socket, :access, false)}
-  end
-
-  @impl true
   def handle_event("enter-password", %{"password" => password}, socket) do
     access =
       if password == "123123123" do
@@ -61,17 +66,16 @@ defmodule CovidCheckinWeb.EventLive.Index do
     {:noreply, push_event(socket, "store_access", %{access: access})}
   end
 
-  @impl true
-  def handle_info({:assign_access_to_socket, access}, socket) do
-    {:noreply, assign(socket, :access, access)}
-  end
-
-  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     event = Events.get_event!(id)
     {:ok, _} = Events.delete_event(event)
 
     {:noreply, assign(socket, :events, list_events())}
+  end
+
+  @impl true
+  def handle_info({:assign_access_to_socket, access}, socket) do
+    {:noreply, assign(socket, :access, access)}
   end
 
   defp list_events do
