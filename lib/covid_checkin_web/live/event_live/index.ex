@@ -6,7 +6,13 @@ defmodule CovidCheckinWeb.EventLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :events, list_events())}
+    socket =
+      assign(socket,
+        access: false,
+        events: list_events()
+      )
+
+    {:ok, socket}
   end
 
   @impl true
@@ -30,6 +36,34 @@ defmodule CovidCheckinWeb.EventLive.Index do
     socket
     |> assign(:page_title, "Deine Eventübersicht")
     |> assign(:event, nil)
+  end
+
+  @impl true
+  def handle_event("restore_access", %{"access" => "true"}, socket) do
+    {:noreply, assign(socket, :access, true)}
+  end
+
+  def handle_event("restore_access", _params, socket) do
+    {:noreply, assign(socket, :access, false)}
+  end
+
+  @impl true
+  def handle_event("enter-password", %{"password" => password}, socket) do
+    access =
+      if password == "123123123" do
+        true
+      else
+        false
+      end
+
+    send(self(), {:assign_access_to_socket, access})
+
+    {:noreply, push_event(socket, "store_access", %{access: access})}
+  end
+
+  @impl true
+  def handle_info({:assign_access_to_socket, access}, socket) do
+    {:noreply, assign(socket, :access, access)}
   end
 
   @impl true

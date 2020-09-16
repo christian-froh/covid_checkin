@@ -1,50 +1,63 @@
 <h1>Deine Eventübersicht</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, CovidCheckinWeb.EventLive.FormComponent,
-    id: @event.id || :new,
-    title: @page_title,
-    action: @live_action,
-    event: @event,
-    return_to: Routes.event_index_path(@socket, :index) %>
-<% end %>
+<%= if @access == true do %>
+  <%= if @live_action in [:new, :edit] do %>
+    <%= live_modal @socket, CovidCheckinWeb.EventLive.FormComponent,
+      id: @event.id || :new,
+      title: @page_title,
+      action: @live_action,
+      event: @event,
+      return_to: Routes.event_index_path(@socket, :index) %>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Max Teilnehmer</th>
-      <th>Registrierte Teilnehmer</th>
-      <th>Eingecheckte Teilnehmer</th>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Max Teilnehmer</th>
+        <th>Registrierte Teilnehmer</th>
+        <th>Eingecheckte Teilnehmer</th>
 
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="events">
-    <%= for event <- @events do %>
-      <tr id="event-<%= event.id %>">
-        <td><%= event.name %></td>
-        <td><%= event.max_attendees %></td>
-        <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %></td>
-        <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></td>
-
-        <td>
-          <span><%= live_redirect "Alle QR Codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
-        </td>
-        <td>
-          <span><%= live_redirect "Alle Teilnehmer", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
-        </td>
-        <td>
-          <button class="button delete"><%= link "Lösche Event", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Vorsicht!!! Möchtest du das Event wirklich löschen?"] %></button>
-        </td>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody id="events">
+      <%= for event <- @events do %>
+        <tr id="event-<%= event.id %>">
+          <td><%= event.name %></td>
+          <td><%= event.max_attendees %></td>
+          <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %></td>
+          <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></td>
 
-<div>
-  <button class="button"><%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new) %></button>
-</div>
+          <td>
+            <span><%= live_redirect "Alle QR Codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
+          </td>
+          <td>
+            <span><%= live_redirect "Alle Teilnehmer", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
+          </td>
+          <td>
+            <button class="button delete"><%= link "Lösche Event", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Vorsicht!!! Möchtest du das Event wirklich löschen?"] %></button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div>
+    <button class="button"><%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new) %></button>
+  </div>
+<% else %>
+  <h3>Bitte Passwort eingeben!</h3>
+
+  <form id="enter_password" phx-submit="enter-password" phx-hook="StoreSettings">
+    <input type="password" name="password"
+            autofocus autocomplete="off" />
+
+    <button type="submit">
+      Login
+    </button>
+  </form>
+<% end %>
