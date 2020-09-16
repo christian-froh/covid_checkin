@@ -13,6 +13,12 @@
   <button class="button"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></button>
 </div>
 
+<form phx-change="attendee-search">
+  <input type="text" name="search" value="<%= @search %>"
+          placeholder="Nachnamen suchen"
+          autofocus autocomplete="off" />
+</form>
+
 <table>
   <thead>
     <tr>
@@ -29,7 +35,7 @@
     </tr>
   </thead>
   <tbody id="attendees">
-    <%= for attendee <- @event.attendees do %>
+    <%= for attendee <- @attendees do %>
       <%= if attendee.registered_at do %>
         <tr id="attendee-<%= attendee.id %>">
           <td><%= attendee.first_name %></td>

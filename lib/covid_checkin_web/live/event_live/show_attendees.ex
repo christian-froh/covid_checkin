@@ -5,7 +5,12 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
   alias CovidCheckin.Events
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, session, socket) do
+    socket =
+      assign(socket,
+        search: ""
+      )
+
     {:ok, socket}
   end
 
@@ -19,9 +24,30 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
   end
 
   def handle_params(%{"id" => id}, _, socket) do
+    event = Events.get_event!(id)
+
     {:noreply,
      socket
      |> assign(:page_title, "Alle Teilnehmer")
-     |> assign(:event, Events.get_event!(id))}
+     |> assign(:event, event)
+     |> assign(:attendees, event.attendees)
+     |> assign(:all_attendees, event.attendees)}
+  end
+
+  @impl true
+  def handle_event("attendee-search", %{"search" => last_name}, socket) do
+    attendees =
+      Enum.filter(socket.assigns.all_attendees, fn attendee ->
+        attendee.last_name != nil &&
+          String.contains?(String.downcase(attendee.last_name), String.downcase(last_name))
+      end)
+
+    socket =
+      assign(socket,
+        search: last_name,
+        attendees: attendees
+      )
+
+    {:noreply, socket}
   end
 end
