@@ -5,7 +5,7 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
   alias CovidCheckin.Events
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, _session, socket) do
     socket =
       assign(socket,
         search: ""
