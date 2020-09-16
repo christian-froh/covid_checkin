@@ -7,7 +7,7 @@ defmodule CovidCheckinWeb.EventLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     loading =
-      if socket.connected? do
+      if connected?(socket) do
         false
       else
         true
