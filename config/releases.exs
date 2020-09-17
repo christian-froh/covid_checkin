@@ -13,6 +13,7 @@ config :covid_checkin, CovidCheckinWeb.Endpoint,
     port: String.to_integer(System.fetch_env!("PORT")),
     transport_options: [socket_opts: [:inet6]]
   ],
+  url: [host: System.fetch_env!("HOST")],
   check_origin: ["https://#{System.fetch_env!("HOST")}", "http://#{System.fetch_env!("HOST")}"],
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
