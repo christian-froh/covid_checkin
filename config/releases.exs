@@ -14,8 +14,7 @@ config :covid_checkin, CovidCheckinWeb.Endpoint,
     transport_options: [socket_opts: [:inet6]]
   ],
   check_origin: ["https://#{System.fetch_env!("HOST")}", "http://#{System.fetch_env!("HOST")}"],
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
-  server: true
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 # ## Using releases (Elixir v1.9+)
 #
