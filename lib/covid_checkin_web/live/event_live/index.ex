@@ -55,7 +55,7 @@ defmodule CovidCheckinWeb.EventLive.Index do
   @impl true
   def handle_event("enter-password", %{"password" => password}, socket) do
     access =
-      if password == "123123123" do
+      if password == "270787" do
         true
       else
         false
