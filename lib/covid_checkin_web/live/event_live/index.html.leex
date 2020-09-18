@@ -53,15 +53,24 @@
       </div>
     </section>
   <% else %>
-    <h3>Bitte Passwort eingeben!</h3>
+    <section class="section">
+      <div class="container">
+        <form id="enter_password" phx-submit="enter-password" phx-hook="StoreSettings">
+          <div class="field">
+            <label class="label">Bitte Passwort eingeben</label>
+            <div class="control">
+              <input class="input" type="password" name="password"
+                  autofocus autocomplete="off" />
+            </div>
+          </div>
 
-    <form id="enter_password" phx-submit="enter-password" phx-hook="StoreSettings">
-      <input type="password" name="password"
-              autofocus autocomplete="off" />
-
-      <button type="submit">
-        Login
-      </button>
-    </form>
+          <div class="control">
+            <button type="submit" class="button is-info">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   <% end %>
 <% end %>
