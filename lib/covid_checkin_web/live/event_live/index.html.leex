@@ -1,7 +1,15 @@
-<h1>Deine Eventübersicht</h1>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Eventübersicht</h1>
+  </div>
+</section>
 
 <%= if @loading == true do %>
-  LOADING...
+  <section class="section">
+    <div class="container">
+      <h1 class="title">LOADING...</h1>
+    </div>
+  </section>
 <% else %>
   <%= if @access == true do %>
     <%= if @live_action in [:new, :edit] do %>
@@ -13,45 +21,38 @@
         return_to: Routes.event_index_path(@socket, :index) %>
     <% end %>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Max Teilnehmer</th>
-          <th>Registrierte Teilnehmer</th>
-          <th>Eingecheckte Teilnehmer</th>
 
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="events">
+    <section class="section">
+      <div class="container">
         <%= for event <- @events do %>
-          <tr id="event-<%= event.id %>">
-            <td><%= event.name %></td>
-            <td><%= event.max_attendees %></td>
-            <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %></td>
-            <td><%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></td>
-
-            <td>
-              <span><%= live_redirect "Alle QR Codes", to: Routes.event_show_qr_path(@socket, :show, event) %></span>
-            </td>
-            <td>
-              <span><%= live_redirect "Alle Teilnehmer", to: Routes.event_show_attendees_path(@socket, :show, event) %></span>
-            </td>
-            <td>
-              <button class="button delete"><%= link "Lösche Event", to: "#", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Vorsicht!!! Möchtest du das Event wirklich löschen?"] %></button>
-            </td>
-          </tr>
+          <div id="event-<%= event.id %>" class="card content">
+            <div class="card-header">
+              <div class="card-header-title">
+                <%= event.name %>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div><b>Max Teilnehmer:</b> <%= event.max_attendees %></div>
+                <div><b>Registrierte Teilnehmer:</b> <%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.registered_at != nil end)) %></div>
+                <div><b>Eingecheckte Teilnehmer:</b> <%= length(Enum.filter(event.attendees, fn(attendee) -> attendee.currently_at_event == true end)) %></div>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <%= live_redirect "Alle QR Codes", to: Routes.event_show_qr_path(@socket, :show, event), class: "card-footer-item" %>
+              <%= live_redirect "Alle Teilnehmer", to: Routes.event_show_attendees_path(@socket, :show, event), class: "card-footer-item" %>
+              <%= link "Lösche Event", to: "#", class: "card-footer-item is-danger", phx_click: "delete", phx_value_id: event.id, data: [confirm: "Vorsicht!!! Möchtest du das Event wirklich löschen?"] %>
+            </footer>
+          </div>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    </section>
 
-    <div>
-      <button class="button"><%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new) %></button>
-    </div>
+    <section class="section">
+      <div class="container">
+        <%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new), class: "button is-info" %>
+      </div>
+    </section>
   <% else %>
     <h3>Bitte Passwort eingeben!</h3>
 

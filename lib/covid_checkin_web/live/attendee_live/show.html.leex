@@ -1,46 +1,99 @@
-<h1>Veranstaltung <%= @attendee.event.name %> </h1>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Veranstaltung <%= @attendee.event.name %></h1>
+  </div>
+</section>
 
 <%= unless @attendee.registered_at do %>
-  <h3>Aufgrund von Corona müssen Sie sich bei uns registrieren.</h3>
-
-  <%= f = form_for @changeset, "#",
-    id: "attendee-form",
-    phx_change: "validate",
-    phx_submit: "save" %>
-
-    <%= label f, :first_name, "Vorname" %>
-    <%= text_input f, :first_name %>
-    <%= error_tag f, :first_name %>
-
-    <%= label f, :last_name, "Nachname" %>
-    <%= text_input f, :last_name %>
-    <%= error_tag f, :last_name %>
-
-    <%= label f, :address, "Adresse" %>
-    <%= textarea f, :address %>
-    <%= error_tag f, :address %>
-
-    <%= label f, :telefon %>
-    <%= text_input f, :telefon %>
-    <%= error_tag f, :telefon %>
-
-    <%= label f, :healthy, "Gesund?" %>
-    <%= checkbox f, :healthy %>
-    <%= error_tag f, :healthy %>
-
-    <div>
-      <%= submit "Anmelden", phx_disable_with: "Speichere...", class: "button margin_top_20" %>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Aufgrund von Corona müssen Sie sich bei uns registrieren.
+        </h1>
+      </div>
     </div>
+  </section>
 
-  </form>
+  <section class="section">
+    <div class="container">
+      <%= f = form_for @changeset, "#",
+        id: "attendee-form",
+        phx_change: "validate",
+        phx_submit: "save" %>
+
+        <div class="field">
+          <%= label f, :first_name, "Vorname", class: "label" %>
+          <div class="control">
+            <%= text_input f, :first_name, class: "input" %>
+            <%= error_tag f, :first_name %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= label f, :last_name, "Nachname", class: "label" %>
+          <div class="control">
+            <%= text_input f, :last_name, class: "input" %>
+            <%= error_tag f, :last_name %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= label f, :address, "Adresse", class: "label" %>
+          <div class="control">
+            <%= textarea f, :address, class: "input" %>
+            <%= error_tag f, :address %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= label f, :telefon, class: "label" %>
+          <div class="control">
+            <%= text_input f, :telefon, class: "input" %>
+            <%= error_tag f, :telefon %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= label f, :healthy, "Gesund?", class: "label" %>
+          <div class="control">
+            <%= checkbox f, :healthy %>
+            <%= error_tag f, :healthy %>
+          </div>
+        </div>
+
+        <div class="control">
+          <%= submit "Anmelden", phx_disable_with: "Speichere...", class: "button is-info" %>
+        </div>
+      </form>
 <% else %>
   <%= if @attendee.currently_at_event == true do %>
-    <h3>Fall Sie die Veranstaltung verlassen, klicken Sie bitte auf den Button.</h3>
+    <section class="hero is-danger">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Falls Sie die Veranstaltung verlassen, klicken Sie bitte auf den Button.
+          </h1>
+        </div>
+      </div>
+    </section>
 
-    <button class="button" phx-click="leave">
-      Veranstaltung verlassen
-    </button>
+    <section class= "section">
+      <div class="container">
+        <button class="button is-danger" phx-click="leave">
+          Veranstaltung verlassen
+        </button>
+      </div>
+    </section>
   <% else %>
-    Wir hoffen Ihnen hat die Veranstaltung gefallen!
+    <section class="hero is-info">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Wir hoffen Ihnen hat die Veranstaltung gefallen!
+          </h1>
+        </div>
+      </div>
+    </section>
   <% end %>
 <% end %>

@@ -1,13 +1,19 @@
-<h1>Übersicht aller QR Codes</h1>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Übersicht aller QR Codes</h1>
+    <h2 class="subtitle">
+      Klicke im Browser Menü auf <strong>Drucken</strong> um alle QR Codes auszudrucken.
+    </h2>
 
-<h5>Klicke im Browser Menü auf Drucken um alle QR Codes auszudrucken.</h5>
+    <div class="content">
+      <%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %>
+    </div>
 
-<div class="margin_top_20 margin_bottom_20">
-  <span class="link"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></span>
-</div>
-
-
-<%= for attendee <- @event.attendees do %>
-  <% {:ok, qr_code} = QRCode.create("#{Application.get_env(:covid_checkin, :url)}/attendees/#{attendee.id}") %>
-  <img class="qr" src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
-<% end %>
+    <div class="content">
+      <%= for attendee <- @event.attendees do %>
+        <% {:ok, qr_code} = QRCode.create("#{Application.get_env(:covid_checkin, :url)}/attendees/#{attendee.id}") %>
+        <img class="qr" src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
+      <% end %>
+    </div>
+  </div>
+</section>

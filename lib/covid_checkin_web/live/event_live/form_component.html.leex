@@ -1,4 +1,6 @@
-<h2><%= @title %></h2>
+<div class="content">
+  <h2><%= @title %></h2>
+</div>
 
 <%= f = form_for @changeset, "#",
   id: "event-form",
@@ -6,13 +8,23 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+  <div class="field">
+    <%= label f, :name, class: "label" %>
+    <div class="control">
+      <%= text_input f, :name, class: "input" %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
 
-  <%= label f, :max_attendees, "Max Teilnehmer" %>
-  <%= number_input f, :max_attendees %>
-  <%= error_tag f, :max_attendees %>
+  <div class="field">
+    <%= label f, :max_attendees, "Max Teilnehmer", class: "label" %>
+    <div class="control">
+      <%= number_input f, :max_attendees, class: "input" %>
+      <%= error_tag f, :max_attendees %>
+    </div>
+  </div>
 
-  <%= submit "Erstelle Event", phx_disable_with: "Speichere...", class: "button" %>
+  <div class="control">
+    <%= submit "Erstelle Event", phx_disable_with: "Speichere...", class: "button is-info" %>
+  </div>
 </form>

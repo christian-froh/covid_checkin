@@ -1,5 +1,3 @@
-<h1>Alle Teilnehmer</h1>
-
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, CovidCheckinWeb.EventLive.AttendeeFormComponent,
     id: @attendee.id,
@@ -9,49 +7,63 @@
     return_to: Routes.event_show_attendees_path(@socket, :show, @attendee.event) %>
 <% end %>
 
-<div class="margin_top_20 margin_bottom_20">
-  <span class="link"><%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %></span>
-</div>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Alle Teilnehmer</h1>
 
-<form phx-change="attendee-search">
-  <input type="text" name="search" value="<%= @search %>"
-          placeholder="Nachnamen suchen"
-          autofocus autocomplete="off" />
-</form>
+    <div class="content">
+      <%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %>
+    </div>
+  </div>
+</section>
 
-<table>
-  <thead>
-    <tr>
-      <th>Vorname</th>
-      <th>Nachname</th>
-      <th>Adresse</th>
-      <th>Telefon</th>
-      <th>Gesund?</th>
-      <th>Eingecheckt im Event</th>
-      <th>Registriert am</th>
-      <th>Event verlassen am</th>
+<section class="hero is-info">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Suche
+      </h1>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="attendees">
-    <%= for attendee <- @attendees do %>
-      <%= if attendee.registered_at do %>
-        <tr id="attendee-<%= attendee.id %>">
-          <td><%= attendee.first_name %></td>
-          <td><%= raw(highlight_last_name(attendee.last_name, @search)) %></td>
-          <td><%= attendee.address %></td>
-          <td><%= attendee.telefon %></td>
-          <td><%= attendee.healthy %></td>
-          <td><%= attendee.currently_at_event %></td>
-          <td><%= attendee.registered_at %></td>
-          <td><%= attendee.left_event_at %></td>
+      <form phx-change="attendee-search">
+        <input class="input" type="text" name="search" value="<%= @search %>"
+                placeholder="Nachnamen suchen"
+                autofocus autocomplete="off" />
+      </form>
+    </div>
+  </div>
+</section>
 
-          <td>
-            <button class="button"><%= live_patch "Bearbeiten", to: Routes.event_show_attendees_path(@socket, :edit, @event, attendee) %></button>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<section class="section">
+  <div class="container">
+    <div class="content">
+      <div class="columns is-multiline">
+        <%= for attendee <- @attendees do %>
+          <%= if attendee.registered_at do %>
+            <div class="column is-6 is-4-fullhd">
+              <div id="attendee-<%= attendee.id %>" class="card content">
+                <div class="card-header">
+                  <div class="card-header-title">
+                    <%= attendee.first_name %> <%= raw(highlight_last_name(attendee.last_name, @search)) %>
+                  </div>
+                </div>
+                <div class="card-content">
+                  <div class="content">
+                    <div><b>Adresse</b> <%= attendee.address %></div>
+                    <div><b>Telefon:</b> <%= attendee.telefon %></div>
+                    <div><b>Gesund?:</b> <%= attendee.healthy %></div>
+                    <div><b>Eingecheckt im Event:</b> <%= attendee.currently_at_event %></div>
+                    <div><b>Registriert am:</b> <%= attendee.registered_at %></div>
+                    <div><b>Event verlassen am:</b> <%= attendee.left_event_at %></div>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <%= live_patch "Bearbeiten", to: Routes.event_show_attendees_path(@socket, :edit, @event, attendee), class: "card-footer-item" %>
+                </footer>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
