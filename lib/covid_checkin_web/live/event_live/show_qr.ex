@@ -12,6 +12,16 @@ defmodule CovidCheckinWeb.EventLive.ShowQr do
       |> assign(page: 1, per_page: 50, fullly_loaded: false)
       |> load_attendees(event_id)
 
+    socket =
+      case length(socket.assigns.attendees) < socket.assigns.per_page do
+        true ->
+          socket
+          |> update(:fullly_loaded, fn _ -> true end)
+
+        _ ->
+          socket
+      end
+
     {:ok, socket, temporary_assigns: [attendees: []]}
   end
 
