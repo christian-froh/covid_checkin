@@ -21,11 +21,16 @@
         return_to: Routes.event_index_path(@socket, :index) %>
     <% end %>
 
+    <section class="section">
+      <div class="container">
+        <%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new), class: "button is-info" %>
+      </div>
+    </section>
 
     <section class="section">
       <div class="container">
         <%= for event <- @events do %>
-          <div id="event-<%= event.id %>" class="card content">
+          <div id="event-<%= event.id %>" class="card content mb-6">
             <div class="card-header">
               <div class="card-header-title">
                 <%= event.name %>
@@ -45,12 +50,6 @@
             </footer>
           </div>
         <% end %>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <%= live_patch "Neues Event erstellen", to: Routes.event_index_path(@socket, :new), class: "button is-info" %>
       </div>
     </section>
   <% else %>

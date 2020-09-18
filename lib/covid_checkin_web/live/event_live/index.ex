@@ -48,7 +48,7 @@ defmodule CovidCheckinWeb.EventLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Deine Eventübersicht")
+    |> assign(:page_title, "Eventübersicht")
     |> assign(:event, nil)
   end
 
