@@ -3,17 +3,26 @@
     <h1 class="title">Übersicht aller QR Codes</h1>
     <h2 class="subtitle">
       Klicke im Browser Menü auf <strong>Drucken</strong> um alle QR Codes auszudrucken.
+      <p><strong>WICHTIG: Lade jedoch erst alle QR codes indem du auf "Weitere QR codes laden" klickst</strong></p>
     </h2>
 
     <div class="content">
       <%= live_redirect "Zurück zur Eventübersicht", to: Routes.event_index_path(@socket, :index) %>
     </div>
 
-    <div class="content">
-      <%= for attendee <- @event.attendees do %>
+    <div id="attendees" phx-update="append" class="content">
+      <%= for attendee <- @attendees do %>
         <% {:ok, qr_code} = QRCode.create("#{Application.get_env(:covid_checkin, :url)}/attendees/#{attendee.id}") %>
-        <img class="qr" src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
+        <img id="<%= attendee.id %>" class="qr" src="data:image/svg+xml;base64, <%= QRCode.Svg.to_base64(qr_code) %>" />
       <% end %>
     </div>
+
+    <%= if @fullly_loaded == false do %>
+      <div id="footer">
+        <button class="button is-info" phx-click="load-more" phx-disable-with="Lädt...">
+          Weitere QR codes laden
+        </button>
+      </div>
+    <% end %>
   </div>
 </section>

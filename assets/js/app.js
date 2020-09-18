@@ -18,6 +18,7 @@ import NProgress from "nprogress";
 import { LiveSocket } from "phoenix_live_view";
 
 let Hooks = {};
+
 Hooks.StoreSettings = {
   // Called when a LiveView is mounted, if it includes an element that uses this hook.
   mounted() {

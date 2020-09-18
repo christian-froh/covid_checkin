@@ -8,6 +8,17 @@ defmodule CovidCheckin.Attendees do
 
   alias CovidCheckin.Events.Attendee
 
+  def list(event_id, %{page: page, per_page: per_page}) do
+    query =
+      from a in Attendee,
+        where: a.event_id == ^event_id,
+        offset: ^((page - 1) * per_page),
+        limit: ^per_page,
+        order_by: [{:desc, :inserted_at}]
+
+    Repo.all(query)
+  end
+
   def create_attendees(event) do
     now = DateTime.utc_now() |> DateTime.truncate(:second)
 
