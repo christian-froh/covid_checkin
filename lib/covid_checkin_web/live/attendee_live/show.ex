@@ -46,8 +46,7 @@ defmodule CovidCheckinWeb.AttendeeLive.Show do
   end
 
   def handle_event("leave", _, socket) do
-    Attendee.leave_changeset(socket.assigns.attendee)
-    |> Repo.update()
+    Attendees.leave_event(socket.assigns.attendee)
 
     {:noreply,
      socket

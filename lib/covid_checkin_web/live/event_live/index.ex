@@ -8,6 +8,7 @@ defmodule CovidCheckinWeb.EventLive.Index do
   def mount(_params, _session, socket) do
     loading =
       if connected?(socket) do
+        Events.subscribe_attendees()
         false
       else
         true
@@ -76,6 +77,34 @@ defmodule CovidCheckinWeb.EventLive.Index do
   @impl true
   def handle_info({:assign_access_to_socket, access}, socket) do
     {:noreply, assign(socket, :access, access)}
+  end
+
+  @impl true
+  def handle_info({:attendee_registered, attendee}, socket) do
+    socket =
+      assign(socket,
+        events: list_events()
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:attendee_updated, attendee}, socket) do
+    socket =
+      assign(socket,
+        events: list_events()
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:attendee_left_event, attendee}, socket) do
+    socket =
+      assign(socket,
+        events: list_events()
+      )
+
+    {:noreply, socket}
   end
 
   defp list_events do

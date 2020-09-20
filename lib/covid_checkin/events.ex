@@ -9,6 +9,10 @@ defmodule CovidCheckin.Events do
   alias CovidCheckin.Events.Event
   alias CovidCheckin.Attendees
 
+  def subscribe_attendees do
+    Phoenix.PubSub.subscribe(CovidCheckin.PubSub, "attendees")
+  end
+
   @doc """
   Returns the list of events.
 

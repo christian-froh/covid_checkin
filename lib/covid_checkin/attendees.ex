@@ -39,11 +39,32 @@ defmodule CovidCheckin.Attendees do
     attendee
     |> Attendee.register_changeset(attrs)
     |> Repo.update()
+    |> broadcast(:attendee_registered)
   end
 
   def update_attendee(%Attendee{} = attendee, attrs \\ %{}) do
     attendee
     |> Attendee.update_changeset(attrs)
     |> Repo.update()
+    |> broadcast(:attendee_updated)
   end
+
+  def leave_event(%Attendee{} = attendee, attrs \\ %{}) do
+    attendee
+    |> Attendee.leave_changeset()
+    |> Repo.update()
+    |> broadcast(:attendee_left_event)
+  end
+
+  defp broadcast({:ok, attendee}, event) do
+    Phoenix.PubSub.broadcast(
+      CovidCheckin.PubSub,
+      "attendees",
+      {event, attendee}
+    )
+
+    {:ok, attendee}
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
 end
