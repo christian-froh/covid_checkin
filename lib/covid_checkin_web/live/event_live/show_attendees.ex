@@ -61,6 +61,15 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
 
   defp to_timezone(datetime) do
     datetime = Timex.Timezone.convert(datetime, "Europe/Berlin")
-    "#{datetime.day}.#{datetime.month}.#{datetime.year} #{datetime.hour}:#{datetime.minute}"
+
+    "#{datetime.day}.#{datetime.month}.#{datetime.year} #{zero_pad(datetime.hour)}:#{
+      zero_pad(datetime.minute)
+    }"
+  end
+
+  defp zero_pad(number, amount \\ 2) do
+    number
+    |> Integer.to_string()
+    |> String.rjust(amount, ?0)
   end
 end
