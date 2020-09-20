@@ -52,8 +52,8 @@
                     <div><b>Telefon:</b> <%= attendee.telefon %></div>
                     <div><b>Gesund?:</b> <%= attendee.healthy %></div>
                     <div><b>Eingecheckt im Event:</b> <%= attendee.currently_at_event %></div>
-                    <div><b>Registriert am:</b> <%= attendee.registered_at %></div>
-                    <div><b>Event verlassen am:</b> <%= attendee.left_event_at %></div>
+                    <div><b>Registriert am:</b> <%= Timex.Timezone.convert(attendee.registered_at, "Europe/Berlin") %></div>
+                    <div><b>Event verlassen am:</b> <%= Timex.Timezone.convert(attendee.left_event_at, "Europe/Berlin") %></div>
                   </div>
                 </div>
                 <footer class="card-footer">
