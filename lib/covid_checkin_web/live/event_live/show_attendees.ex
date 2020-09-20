@@ -56,4 +56,11 @@ defmodule CovidCheckinWeb.EventLive.ShowAttendees do
   defp highlight_last_name(lastname, search) do
     String.replace(lastname, search, "<span class=\"text_highlight\">#{search}</span>")
   end
+
+  defp to_timezone(nil), do: nil
+
+  defp to_timezone(datetime) do
+    datetime = Timex.Timezone.convert(datetime, "Europe/Berlin")
+    "#{datetime.day}.#{datetime.month}.#{datetime.year} #{datetime.hour}:#{datetime.minute}"
+  end
 end
